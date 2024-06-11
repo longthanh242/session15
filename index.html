@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #error {
+            color: red;
+        }
+        .container {
+            background-color: #ccc;
+            width: 70%;
+            margin: 0 auto;
+        }
+        .header {
+            padding: 16px;
+        }
+
+        .header h3 {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+        .form-header {
+            margin: 16px;
+            display: flex;
+            /* justify-content: space-between; */
+        }
+
+        .form-header input {
+            width: 100%;
+            padding: 5px;
+            /* margin: auto 20px; */
+        }
+        #job-list{
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+        }
+        #job-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h3>Danh sách công việc</h3>
+            <div class="form-header">
+                <input type="text" id="text">
+                <button onclick="addJob()">Thêm</button>
+            </div>
+            <p id="error"></p>
+        </header>
+        <ul id="job-list"></ul>
+    </div>
+    <script>
+        let jobs = JSON.parse(localStorage.getItem("jobs")) || [];
+        // Hàm thêm job thì bàn phím
+        function addJob() {
+            let inputJob = document.getElementById("text").value;
+            let job = {
+                id: Math.floor(Math.random() * 10),
+                name: inputJob,
+                status: true
+            }
+            if (!inputJob) {
+                document.getElementById("error").innerHTML = "Tên công việc không được để trống"
+                return;
+            }
+            document.getElementById("error").innerHTML = "";
+            jobs.push(job);
+            localStorage.setItem("jobs", JSON.stringify(jobs));
+            renderJob();
+        }   
+
+        function renderJob() {
+            let text = '';
+            for (let i = 0; i < jobs.length; i++) {
+                text += `
+                    <li>
+                        <div>
+                            <input type = "checkbox" onclick = "doneJob(${jobs[i].id})">
+                            <span>${jobs[i].name}</span>
+                        </div>
+                        <button onclick = "deleteJob(${jobs[i].id})">Delete</button>
+                    </li>
+                `
+            }
+            document.getElementById("job-list").innerHTML = text;
+        }
+        renderJob();
+
+        function deleteJob(id) {
+            if(confirm("Do you want to delete this job?")) {
+                for (let i = 0; i < jobs.length; i++) {
+                    if (jobs[i].id === id) {
+                        jobs.splice(i ,1);
+                        renderJob();
+                        localStorage.setItem('jobs', JSON.stringify(jobs));
+                        break;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

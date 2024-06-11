@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        check = false;
+        if (check) {
+            // console.log("who are you");
+        }
+
+        const ages = [32, 33, 16, 40];
+
+        let a = ages.filter(checkAdult);
+        function checkAdult(age) {
+            return age>=18;
+        }
+        // console.log(a)
+
+        let myEmail = "thu";
+        let email = ["hoa", "thu", "lan"];
+        check = false;
+        for (let i = 0; i < email.length; i++) {
+            if (email[i] === myEmail) {
+                check = true;
+                break;
+            }
+        }
+
+        if (check) {
+            console.log("email đã được đăng kí");
+        } else {
+            email.push(myEmail)
+        }
+        console.log(email);
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* button {
+            text-decoration: ;
+        } */
+    </style>
+</head>
+<body>
+    <button onclick="register(event)">register</button>
+    <!-- trong thẻ a cho đường link để khi click vào button chuyển trang -->
+    <p>bạn đã có tài khoản <a href="./"></a></p>
+    <script>
+        /* 
+            Khi đăng kí email kiểm tra xem email đã được đăng kí hay chưa   
+        */
+        //    Ngăn trang web refresh mỗi lần thêm 1 user
+        function register(e) {
+            // khi dùng form thì phải ngăn chặn việc submit của form
+            e.preventDefault();
+            // logic chuyển trang login
+            window.location.href="./tên file"
+
+            // CSS gạch ngang dòng chữ
+            // text-decoration: line-through;
+
+            // Thẻ hr để gạch dưới chân giống CSS: border-bottom
+        }
+
+        // function đi kiểm tra tiến độ công việc
+        function progressJob() {
+            // status = true là hoàn thành công việc
+            // status = false là chưa hoàn thành công việc
+            let jobs = [
+                {
+                    id: 1,
+                    name: 'đá bóng',
+                    status: false
+                },
+                {
+                    id: 2,
+                    name: 'đá cầu',
+                    status: true
+                },
+                {
+                    id: 3,
+                    name: 'nhảy dây',
+                    status: true
+                },
+                {
+                    id: 4,
+                    name: 'bóng chuyền',
+                    status: false
+                },
+            ];
+            let count = 0;
+            for (let i = 0; i < jobs.length; i++) {
+                if (jobs[i].status) {
+                    count++;
+                }
+            }
+            // phần trăm tiến độ
+            let percent = count/(jobs.length)*100
+        }
+
+        function renderJob() {
+            let text = '';
+            for (let i = 0; i < jobs.length; i++) {
+                let test = "";
+                let checked = '';
+                if (jobs[i].status) {
+                    test +=` <span>${jobs[i].name}</span> `
+                    checked += ` <input type = "checkbox" onclick = "changeJob(${jobs[i].id})">`
+                }else {
+                    test +=` <s>${jobs[i].name}</s> `
+                    checked += ` <input type = "checkbox" onclick = "changeJob(${jobs[i].id}) checked">`
+                }
+                text += `
+                    <div>
+                        ${checked}
+                        ${test}
+                        <button onclick = "deleteJob(${jobs[i].id})">Delete</button>
+                    </div>
+                `
+            }
+            document.getElementById("job-list").innerHTML = text;
+        }
+        renderJob();
+
+        function deleteJob(id) {
+            for (let i = 0; i < jobs.length; i++) {
+                if (jobs[i].id === id) {
+                    jobs.splice(i, 1);
+                    localStorage.setItem("jobs", JSON.stringify(jobs));
+                    renderJob();
+                    break;
+                }                
+            }
+        }
+
+        // click vào checkbox để đổi status
+        function changeJob(id) {
+            for (let i = 0; i < jobs.length; i++) {
+                if (jobs[i].id === id) {
+                    jobs[i].status=!jobs[i].status;                  
+                    localStorage.setItem("jobs", JSON.stringify(jobs));
+                    renderJob();
+                    break;
+                }                
+            }
+        }
+    </script>
+</body>
+</html>
